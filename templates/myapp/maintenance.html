@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maintenance</title>
+</head>
+<body>
+
+<h1>Maintenance Operations</h1>
+
+<form action="" method="post">
+    {% csrf_token %}
+
+    <input type="radio" id="currencies" name="op" value="currencies">
+    <label for="currencies">Update the list of countries and currencies</label>
+
+    <br>
+
+    <input type="radio" id="rates" name="op" value="rates">
+    <label for="rates">Update cross rates</label>
+
+    <br>
+
+    <input name="update" value="Do selected action" type="submit">
+</form>
+
+</body>
+</html>
