@@ -29,3 +29,17 @@ def view_currencies(request):
 def currency_selection(request):
     data = {'currencies': models.Currency.objects.all()}
     return render(request,'myapp/currency_selector.html', context=data)
+
+
+def exch_rate(request):
+    data = {
+        'currency1': models.Currency.objects.filter(iso=request.GET['currency_from']).first(),
+        'currency2': models.Currency.objects.filter(iso=request.GET['currency_to']).first(),
+    }
+
+    utils.update_xrates(data['currency1'])
+
+    rate_obj = data['currency1'].currency_one_rate_set.filter(currency_two=data['currency1']).first()
+    data['rate'] = rate_obj.rate if rate_obj else 'Not Available'
+
+    return render(request, "myapp/exchange_detail.html", data)
