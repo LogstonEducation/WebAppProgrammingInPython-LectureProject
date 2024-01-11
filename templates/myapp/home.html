@@ -1,19 +1,15 @@
- {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "myapp/base.html" %}
+{% load static %}
 
-<h1>Currency Portfolio</h1>
+{% block content %}
+	<h1>Currency Portfolio</h1>
 
 The date now is: {{ date }}
 
 <img 
     src="{% static 'myapp/money.jpg' %}"
-    alt="money"></img>
-
-</body>
-</html>
+    alt="money" />
+<p>
+    <a href="{% url 'maintenance' %}">Visit Maintenance page</a>
+</p>
+{% endblock %}

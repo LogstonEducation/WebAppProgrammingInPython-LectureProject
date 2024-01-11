@@ -1,12 +1,7 @@
+{% extends "myapp/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<img src='{% static "myapp/logo.png" %}' alt="image" width="400px">
+
+{% block content %}
 <h1>Currencies</h1>
 <table>
     <tr>
@@ -20,5 +15,5 @@
         </tr>
     {% endfor %}
 </table>
-</body>
-</html>
+
+{% endblock %}
