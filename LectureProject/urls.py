@@ -25,4 +25,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('maintenance', views.maintenance, name='maintenance'),
     path('currencies', views.view_currencies, name='currencies'),
+    path('currency-selection', views.currency_selection, name='currency_selector'),
 ]

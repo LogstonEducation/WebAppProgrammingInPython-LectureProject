@@ -24,3 +24,8 @@ def maintenance(request):
 def view_currencies(request):
     data = {'currencies': models.Currency.objects.all()}
     return render(request,'myapp/currencies.html', context=data)
+
+
+def currency_selection(request):
+    data = {'currencies': models.Currency.objects.all()}
+    return render(request,'myapp/currency_selector.html', context=data)
