@@ -32,6 +32,9 @@ def currency_selection(request):
 
 
 def exch_rate(request):
+    if not ('currency_from' in request.GET and 'currency_to' in request.GET):
+        return HttpResponseRedirect(reverse('currency_selector'))
+
     data = {
         'currency1': models.Currency.objects.filter(iso=request.GET['currency_from']).first(),
         'currency2': models.Currency.objects.filter(iso=request.GET['currency_to']).first(),
@@ -39,7 +42,7 @@ def exch_rate(request):
 
     utils.update_xrates(data['currency1'])
 
-    rate_obj = data['currency1'].currency_one_rate_set.filter(currency_two=data['currency1']).first()
+    rate_obj = data['currency1'].currency_one_rate_set.filter(currency_two=data['currency2']).first()
     data['rate'] = rate_obj.rate if rate_obj else 'Not Available'
 
     return render(request, "myapp/exchange_detail.html", data)

@@ -9,6 +9,7 @@ from . import models
 COUNTRY_CURRENCIES_SYMBOLS_URL = "https://thefactfile.org/countries-currencies-symbols/"
 CURRENCY_TABLE_URL_STUB = "https://www.xe.com/currencytables/?from="
 
+
 def fetch_currencies() -> list:
     response = requests.get(COUNTRY_CURRENCIES_SYMBOLS_URL)
     if not response.status_code == 200:
@@ -66,20 +67,26 @@ def get_currency_rates(iso_code):
 def update_xrates(currency):
     for symbol, x_rate in get_currency_rates(currency.iso):
 
-        time_now = datetime.now(timezone.utc)
+        try:
+            currency_two = models.Currency.objects.get(iso=symbol)
+        except models.Currency.DoesNotExist:
+            continue
 
         try:
             rate_object = models.Rates.objects.get(
                 currency_one=currency,
-                currency_two__iso=symbol,
+                currency_two=currency_two,
             )
+
             rate_object.rate = x_rate
-            rate_object.last_update_time = time_now
+            rate_object.last_update_time = datetime.now(timezone.utc)
+
         except models.Rates.DoesNotExist:
             rate_object = models.Rates(
                 currency_one=currency,
-                currency_two=symbol,
+                currency_two=currency_two,
                 rate=x_rate,
-                last_update_time=time_now,
+                last_update_time=datetime.now(timezone.utc),
             )
+
         rate_object.save()

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Currency, Holding
+from .models import Currency, Holding, Rates
 
 
 class HoldingInLine(admin.TabularInline):
@@ -15,3 +15,10 @@ class CurrencyAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Currency, CurrencyAdmin)
+
+
+class RatesAdmin(admin.ModelAdmin):
+    fields = ('currency_one', 'currency_two', 'rate')
+
+
+admin.site.register(Rates, RatesAdmin)
