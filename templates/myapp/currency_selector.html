@@ -2,5 +2,33 @@
 {% load static %}
 
 {% block content %}
- Gonna add stuff!
+     <form action="" method="get">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <h4>Please select the currency you want to convert from</h4>
+                    <select
+                        name="currency_from"
+                        class="form-control d-inline-block">
+                        {% for currency in currencies %}
+                            <option value="{{ currency.iso }}">{{ currency.long_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <h4>Please select the currency you want to convert to</h4>
+                    <select
+                        name="currency_to"
+                        class="form-control">
+                        {% for currency in currencies %}
+                            <option value="{{ currency.iso }}">{{ currency.long_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="submit">
+    </form>
 {% endblock %}
