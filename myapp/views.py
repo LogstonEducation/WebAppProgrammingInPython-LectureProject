@@ -76,6 +76,9 @@ def map(request):
     visiting_cities = list(filter(lambda n: n != '', (request.GET.get(name) or '' for name in form_names)))
 
     m = folium.Map()
+    if visiting_cities:
+        m = utils.add_markers(m, visiting_cities)
+
     data = {
         'm': m._repr_html_,
         'number_of_cities': number_of_cities,

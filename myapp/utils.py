@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 import bs4
+import folium
 import requests
 
 from . import models
@@ -123,10 +124,39 @@ def get_lat_lon(city_name):
     else:
         url = f"https://en.wikipedia.org/wiki/{city_name.replace(' ', '_')}"
         soup = bs4.BeautifulSoup(requests.get(url).content, 'html.parser')
-        lat = soup.find('span', class_="latitude").get_text()
-        lon = soup.find('span', class_="longitude").get_text()
+        try:
+            lat = soup.find('span', class_="latitude").get_text()
+            lon = soup.find('span', class_="longitude").get_text()
+        except AttributeError:
+            lat = lon = '0°0′0″N 0°0′0″W'
 
         lat = dms_to_decimal(lat)
         lon = dms_to_decimal(lon)
 
-    return lat, lon, url
+    return round(lat, 5), round(lon, 5), url
+
+
+def get_lat_lon_dicts(visiting_cities):
+    details_by_lat_lon = dict()
+    for city_name in visiting_cities:
+        lat, lon, wiki_link = get_lat_lon(city_name.strip())
+        if lat and lon and wiki_link:
+            details_by_lat_lon[(lat,  lon)] = (wiki_link, city_name)
+    return details_by_lat_lon
+
+
+def add_markers(m, visiting_cities):
+    details_by_lat_lon = get_lat_lon_dicts(visiting_cities)
+    for (lat, lon), (wiki_link, city_name) in details_by_lat_lon.items():
+        icon = folium.Icon(color="blue", prefix="fa", icon="plane")
+        popup = f"<a href={wiki_link}>{city_name}</a>"
+        marker = folium.Marker((lat, lon), icon=icon, popup=popup)
+        marker.add_to(m)
+
+    # Add line. First rearrange lat longs by longitude
+    lat_lon_list = sorted(details_by_lat_lon.keys(), key=lambda x: x[1])
+    line_string = [[lat_lon_list[i], lat_lon_list[i+1]] for i in range(len(lat_lon_list)-1)]
+
+    line = folium.PolyLine(line_string, color="red", weight=5)
+    line.add_to(m)
+    return m
