@@ -59,4 +59,4 @@ def register_new_user(request):
         ).save()
         return HttpResponseRedirect(reverse('home'))
 
-    return render(request, "myapp/register.html", {'form': form})
+    return render(request, "registration/register.html", {'form': form})

@@ -9,6 +9,23 @@
     <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
 </head>
 <body>
+
+<span style="float:right;">
+    {% if user.username %}
+        <span class="large-font">Hello {{ user.username }}!</span>
+        <br>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="logout">
+        </form>
+    {% else %}
+        <span class="large-font">Hello Anonymous User!</span>
+        <br>
+        <a href="{% url 'login' %}"><button>login</button></a>
+        /
+        <a href="{% url 'register_user' %}">register</a>
+    {% endif %}
+</span>
 {% block content %}
 
 {% endblock %}
