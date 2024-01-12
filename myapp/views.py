@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -46,3 +47,16 @@ def exch_rate(request):
     data['rate'] = rate_obj.rate if rate_obj else 'Not Available'
 
     return render(request, "myapp/exchange_detail.html", data)
+
+
+def register_new_user(request):
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+        new_user = form.save()
+        models.AccountHolder(
+            user=new_user,
+            date_of_birth=request.POST["dob"],
+        ).save()
+        return HttpResponseRedirect(reverse('home'))
+
+    return render(request, "myapp/register.html", {'form': form})

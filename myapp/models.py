@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -40,3 +41,12 @@ class Rates(models.Model):
 
     def __str__(self):
         return f'{self.currency_one.iso} {self.currency_two.iso} {self.rate}'
+
+
+class AccountHolder(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_of_birth = models.DateField()
+    currencies_visited = models.ManyToManyField(Currency)
+
+    def __str__(self):
+        return f'{self.user.username}'
