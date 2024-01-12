@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+import folium
 
 from . import models, utils
 
@@ -66,3 +67,19 @@ def register_new_user(request):
         return HttpResponseRedirect(reverse('home'))
 
     return render(request, "registration/register.html", {'form': form})
+
+
+def map(request):
+    number_of_cities = int(request.GET["number_of_cities"]) if 'number_of_cities' in request.GET else 0
+
+    form_names = ["city" + str(i) for i in range(number_of_cities)]
+    visiting_cities = list(filter(lambda n: n != '', (request.GET.get(name) or '' for name in form_names)))
+
+    m = folium.Map()
+    data = {
+        'm': m._repr_html_,
+        'number_of_cities': number_of_cities,
+        'names': form_names,
+        'visiting_cities': visiting_cities,
+    }
+    return render(request, 'myapp/map.html', context=data)

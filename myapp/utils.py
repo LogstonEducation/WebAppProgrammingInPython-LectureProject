@@ -90,3 +90,43 @@ def update_xrates(currency):
             )
 
         rate_object.save()
+
+
+def dms_to_decimal(dms_coordinates):
+    degrees = int(dms_coordinates.split('°')[0])
+    minutes = int(dms_coordinates.split('°')[1].split("′")[0])
+
+    try:
+        seconds = int(dms_coordinates.split('°')[1].split("′")[1][:2])
+    except (TypeError, ValueError):
+        seconds = 0.0
+
+    decimal = degrees + minutes / 60 + seconds / 3600
+
+    if dms_coordinates:
+        if dms_coordinates[-1] == "S":
+            decimal = -decimal
+
+        elif dms_coordinates[-1] == "W":
+            decimal = -decimal
+
+    return decimal
+
+
+def get_lat_lon(city_name):
+    city = models.City.objects.filter(name=city_name).first()
+
+    url = ''
+    if city:
+        lat = city.latitude
+        lon = city.longitude
+    else:
+        url = f"https://en.wikipedia.org/wiki/{city_name.replace(' ', '_')}"
+        soup = bs4.BeautifulSoup(requests.get(url).content, 'html.parser')
+        lat = soup.find('span', class_="latitude").get_text()
+        lon = soup.find('span', class_="longitude").get_text()
+
+        lat = dms_to_decimal(lat)
+        lon = dms_to_decimal(lon)
+
+    return lat, lon, url
