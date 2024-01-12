@@ -46,6 +46,12 @@ def exch_rate(request):
     rate_obj = data['currency1'].currency_one_rate_set.filter(currency_two=data['currency2']).first()
     data['rate'] = rate_obj.rate if rate_obj else 'Not Available'
 
+    if request.user.is_authenticated:
+        account_holder = models.AccountHolder.objects.get(user=request.user)
+        account_holder.currencies_visited.add(data['currency1'])
+        account_holder.currencies_visited.add(data['currency2'])
+        data['currencies_visited'] = account_holder.currencies_visited.all()
+
     return render(request, "myapp/exchange_detail.html", data)
 
 
