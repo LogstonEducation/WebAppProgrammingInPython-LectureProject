@@ -26,7 +26,11 @@
     {% else %}
         <form action="" method="get">
             How many cities do you want to visit:
-            <input name="number_of_cities" value="0" type="number"><br>
+            <input 
+                name="number_of_cities" 
+                value="0" 
+                type="number"
+                onchange="return verify(this)"><br>
             <input type="submit" value="submit">
         </form>
     {% endif %}
@@ -38,4 +42,17 @@
         </div>
      </div>
 </div>
+    
+<script>
+function verify(tag) {
+    let value = parseInt(tag.value);
+    if (value<0) {
+        alert("Number of cities cannot be negative!");
+        tag.value = 0;
+        return false;
+    } else {
+        return true;
+    }
+}
+</script>
 {% endblock %}
