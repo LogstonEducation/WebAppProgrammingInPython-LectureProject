@@ -14,21 +14,47 @@
     </style>
 </head>
 <body>
-Hi! My name is <span id="name">Juan</span><br>
-What is my name? <span id="nameAnswer"></span><br>
-My income is $<input name="income" id="income" value="0.0" onchange="getTax(this.value)"><br>
-I owe $<span id="tax"></span> in income tax
-
+<script>
+</script>
+<h1>Enter percentage allocations to branches</h1>
+<form action="" method="get">
+    <table>
+        <tr>
+        <th>Branch name</th>
+        <th>Allocated percent</th>
+        </tr>
+        <tr>
+            <td>East Coast</td><td><input class="pct" type="text" name="ec" value="0.0" onchange="return update()"></td>
+        </tr>
+        <tr>
+            <td>West Coast</td><td><input class="pct" type="text" name="wc" value="0.0" onchange="return update()"></td>
+        </tr>
+        <tr>
+            <td>South West</td><td><input class="pct" type="text" name="sw" value="0.0" onchange="return update()"></td>
+        </tr>
+        <tr>
+            <td>Central</td><td><input class="pct" type="text" name="ce" value="0.0" onchange="return update()"></td>
+        </tr>
+        <tr>
+            <td>South East</td><td><input class="pct" type="text" name="se" value="0.0" onchange="return update()"></td>
+        </tr>
+        <tr>
+            <td>Total</td><td><input id="total" type="text" name="ec" value=“0.0" readonly></td>
+        </tr>
+    </table>
+</form>
 
 <script>
-    function getTax(value) {
-        console.log(value)
-        let name = document.getElementById("name").value;
-        document.getElementById("nameAnswer").textContent = name;
-        let income = parseFloat(value);
-        let tax = income * 0.30;
-        document.getElementById("tax").textContent = parseInt(tax);
+function update() {
+    let total=0;
+    let all_pct_tags = document.getElementsByClassName("pct");
+    for(let i=0;i<all_pct_tags.length;i++) {
+        if (parseFloat(all_pct_tags[i].value)) {
+            total += parseFloat(all_pct_tags[i].value);
+        }
     }
-    </script>
+    document.getElementById("total").value=total
+}
+</script>
 </body>
 </html>
