@@ -86,3 +86,7 @@ def map(request):
         'visiting_cities': visiting_cities,
     }
     return render(request, 'myapp/map.html', context=data)
+
+
+def js_playground(request):
+    return render(request,'myapp/js_playground.html')
