@@ -41,6 +41,7 @@
         <tr>
             <td>Total</td><td><input id="total" type="text" name="ec" value=“0.0" readonly></td>
         </tr>
+        <input type="submit" name="submit" value="Process Percentages" onclick="return verifyTotal()">
     </table>
 </form>
 
@@ -53,8 +54,19 @@ function update() {
             total += parseFloat(all_pct_tags[i].value);
         }
     }
-    document.getElementById("total").value=total
+    document.getElementById("total").value=total;
 }
+
+function verifyTotal() {
+    let total=parseFloat(document.getElementById("total").value);
+    if (total>99.99 && total<100.01) {
+        return true
+    } else {
+        alert("The total of all percentages must be 100!");
+        return false
+    }
+}
+
 </script>
 </body>
 </html>
