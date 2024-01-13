@@ -16,16 +16,19 @@
 <body>
 Hi! My name is <span id="name">Juan</span><br>
 What is my name? <span id="nameAnswer"></span><br>
-My income is $<span id="income">120000</span><br>
+My income is $<input name="income" id="income" value="0.0" onchange="getTax(this.value)"><br>
 I owe $<span id="tax"></span> in income tax
 
 
 <script>
-    let name=document.getElementById("name").textContent;
-    document.getElementById("nameAnswer").textContent=name; 
-    let income=parseFloat(document.getElementById("income").textContent);
-    let tax=income*0.30;
-    document.getElementById("tax").textContent = parseInt(tax);
+    function getTax(value) {
+        console.log(value)
+        let name = document.getElementById("name").value;
+        document.getElementById("nameAnswer").textContent = name;
+        let income = parseFloat(value);
+        let tax = income * 0.30;
+        document.getElementById("tax").textContent = parseInt(tax);
+    }
     </script>
 </body>
 </html>
