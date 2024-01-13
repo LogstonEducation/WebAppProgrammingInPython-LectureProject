@@ -8,5 +8,14 @@
 Hello Javascript!
 
 <script>let x=1;  console.log("The value of x is: ", x)</script>
+
+<script>
+    let scores=[["John",78], ["Jing",91], ["Jahangir",82], ["Jana",54]];
+    for (let i=0; i<scores.length; i++) {
+        if (scores[i][1]<60) {
+            console.log("Refer", scores[i][0], "for academic probation.")
+        }
+    }
+</script>
 </body>
 </html>
