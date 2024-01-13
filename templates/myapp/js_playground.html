@@ -14,20 +14,18 @@
     </style>
 </head>
 <body>
-Hello Javascript!
+Hi! My name is <span id="name">Juan</span><br>
+What is my name? <span id="nameAnswer"></span><br>
+My income is $<span id="income">120000</span><br>
+I owe $<span id="tax"></span> in income tax
 
-<span id="clock"></span>
 
 <script>
-    // Define a function to display the current time
-    function displayTime() {
-        let clock = document.querySelector("#clock"); // Get element with id="clock"
-        let now = new Date();                         // Get current time
-        clock.textContent = now.toLocaleTimeString(); // Display time in the clock
-    }
-    displayTime()                    // Display the time right away by calling the function
-    setInterval(displayTime, 1000);  // And then update it every second. Call the function again every second
-</script>
-
+    let name=document.getElementById("name").textContent;
+    document.getElementById("nameAnswer").textContent=name; 
+    let income=parseFloat(document.getElementById("income").textContent);
+    let tax=income*0.30;
+    document.getElementById("tax").textContent = parseInt(tax);
+    </script>
 </body>
 </html>
