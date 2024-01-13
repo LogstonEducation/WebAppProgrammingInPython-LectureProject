@@ -24,19 +24,19 @@
         <th>Allocated percent</th>
         </tr>
         <tr>
-            <td>East Coast</td><td><input class="pct" type="text" name="ec" value="0.0" onchange="return update()"></td>
+            <td>East Coast</td><td><input class="pct" type="text" name="ec" value="0.0" onchange="return update(this)"></td>
         </tr>
         <tr>
-            <td>West Coast</td><td><input class="pct" type="text" name="wc" value="0.0" onchange="return update()"></td>
+            <td>West Coast</td><td><input class="pct" type="text" name="wc" value="0.0" onchange="return update(this)"></td>
         </tr>
         <tr>
-            <td>South West</td><td><input class="pct" type="text" name="sw" value="0.0" onchange="return update()"></td>
+            <td>South West</td><td><input class="pct" type="text" name="sw" value="0.0" onchange="return update(this)"></td>
         </tr>
         <tr>
-            <td>Central</td><td><input class="pct" type="text" name="ce" value="0.0" onchange="return update()"></td>
+            <td>Central</td><td><input class="pct" type="text" name="ce" value="0.0" onchange="return update(this)"></td>
         </tr>
         <tr>
-            <td>South East</td><td><input class="pct" type="text" name="se" value="0.0" onchange="return update()"></td>
+            <td>South East</td><td><input class="pct" type="text" name="se" value="0.0" onchange="return update(this)"></td>
         </tr>
         <tr>
             <td>Total</td><td><input id="total" type="text" name="ec" value=“0.0" readonly></td>
@@ -46,16 +46,23 @@
 </form>
 
 <script>
-function update() {
+function update(tag) {
+    let value = parseFloat(tag.value);
+    if (value > 40.0) {
+        alert("No zone can get more than 40% of the budget! Resetting to 40%");
+        tag.value = 40.0;
+    }
+
     let total=0;
-    let all_pct_tags = document.getElementsByClassName("pct");
-    for(let i=0;i<all_pct_tags.length;i++) {
+    let all_pct_tags = document.getElementsByClassName("pct")
+    for (let i=0;i<all_pct_tags.length;i++) {
         if (parseFloat(all_pct_tags[i].value)) {
             total += parseFloat(all_pct_tags[i].value);
         }
     }
     document.getElementById("total").value=total;
 }
+
 
 function verifyTotal() {
     let total=parseFloat(document.getElementById("total").value);
