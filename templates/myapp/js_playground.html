@@ -10,12 +10,19 @@ Hello Javascript!
 <script>let x=1;  console.log("The value of x is: ", x)</script>
 
 <script>
-    let scores=[["John",78], ["Jing",91], ["Jahangir",82], ["Jana",54]];
-    for (let i=0; i<scores.length; i++) {
-        if (scores[i][1]<60) {
-            console.log("Refer", scores[i][0], "for academic probation.")
+    function probation(warn_level) {
+        let scores = [["John", 78], ["Jing", 91], ["Jahangir", 82], ["Jana", 54]];
+        let total_scores = 0;
+        let names = [];
+        for (let i = 0; i < scores.length; i++) {
+            if (scores[i][1] < warn_level) {
+                names.push(scores[i][0])
+            }
+            total_scores += scores[i][1]
         }
+        return [names,total_scores]
     }
+    console.log(probation(80));
 </script>
 </body>
 </html>
