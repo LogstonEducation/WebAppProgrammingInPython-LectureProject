@@ -3,26 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>JS Playground</title>
+    <style>    /* The format for the clock object       */
+        #clock { /* for an id="clock" property in a tag */
+            font: bold 24px sans-serif; /* font */
+            background: #ddf; /* background color of the clock */
+            padding: 15px; /* space around the clock */
+            border: solid black 2px; /* border */
+            border-radius: 10px; /* will round corners of the clock object */
+        }
+    </style>
 </head>
 <body>
 Hello Javascript!
 
-<script>let x=1;  console.log("The value of x is: ", x)</script>
+<span id="clock"></span>
 
 <script>
-    function probation(warn_level) {
-        let scores = [["John", 78], ["Jing", 91], ["Jahangir", 82], ["Jana", 54]];
-        let total_scores = 0;
-        let names = [];
-        for (let i = 0; i < scores.length; i++) {
-            if (scores[i][1] < warn_level) {
-                names.push(scores[i][0])
-            }
-            total_scores += scores[i][1]
-        }
-        return [names,total_scores]
+    // Define a function to display the current time
+    function displayTime() {
+        let clock = document.querySelector("#clock"); // Get element with id="clock"
+        let now = new Date();                         // Get current time
+        clock.textContent = now.toLocaleTimeString(); // Display time in the clock
     }
-    console.log(probation(80));
+    displayTime()                    // Display the time right away by calling the function
+    setInterval(displayTime, 1000);  // And then update it every second. Call the function again every second
 </script>
+
 </body>
 </html>
